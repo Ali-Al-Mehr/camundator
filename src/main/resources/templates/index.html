@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Camundator</title>
+    <meta name="description"
+          content="Camundator is a learning project dedicated to Camunda, BPMN, DMN, FEEL and process automation.">
+
+    <link rel="icon" type="image/png" sizes="48x48" th:href="@{/images/favicon-48.png}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+
+        <a class="navbar-brand d-flex align-items-center gap-2" href="#home">
+            <!-- Replace this placeholder with the Camundator PNG logo -->
+            <span class="d-inline-flex align-items-center justify-content-center rounded-circle border border-info"
+                  style="width: 42px; height: 42px;">
+                <i class="bi bi-diagram-3 text-info"></i>
+            </span>
+            Camundator
+        </a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavigation"
+                aria-controls="mainNavigation"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavigation">
+            <ul class="navbar-nav ms-auto gap-lg-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#cockpit">Cockpit</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#links">Links</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#official">Camunda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="home">
+    <div class="container hero-content">
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-7">
+
+                <div class="d-flex align-items-center gap-4 mb-4">
+                    <img src="/images/camundator_icon_400.png"
+                         alt="Camundator Logo"
+                         class="flex-shrink-0"
+                         width="128"
+                         height="128"
+                         style="object-fit: contain;">
+
+                    <div>
+                        <h1 class="mb-2">Camundator</h1>
+                        <p class="hero-subtitle mb-0">From Process Understanding to Automation</p>
+                    </div>
+                </div>
+
+                <p class="hero-description mb-4">
+                    Camundator is a learning project dedicated to Camunda,
+                    BPMN, DMN, FEEL and process automation.
+                    Learn the concepts, explore practical examples,
+                    and turn process models into working solutions.
+                </p>
+
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="https://t.me/camundator"
+                       target="_blank" rel="noopener noreferrer"
+                       class="btn btn-primary-custom">
+                        <i class="bi bi-telegram me-2"></i>
+                        Join Our Channel
+                    </a>
+
+                    <a href="https://github.com/Ali-Al-Mehr/camundator"
+                       target="_blank" rel="noopener noreferrer"
+                       class="btn btn-outline-custom">
+                        <i class="bi bi-github me-2"></i>
+                        Explore on GitHub
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="col-lg-5">
+                <!-- Camunda Process Orchestration Illustration -->
+                <img src="/images/camunda-orchestrating.webp"
+                     alt="Camunda Process Orchestration: BPMN, DMN and FEEL"
+                     class="img-fluid rounded-4 shadow">
+            </div>
+
+        </div>
+    </div>
+</header>
+
+<!-- About the Project -->
+<section class="section" id="about">
+    <div class="container">
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-7">
+                <div class="section-label mb-2">About the Project</div>
+                <h2 class="section-title mb-3">What is Camundator?</h2>
+
+                <p class="section-description">
+                    Camundator is a learning and demonstration project
+                    built around Camunda Platform 7. It helps learners
+                    understand business processes, decision models,
+                    workflow automation and orchestration through
+                    practical examples.
+                </p>
+
+                <p class="section-description">
+                    The project connects process modelling concepts
+                    with a working technical environment, making it
+                    easier to experiment, test and learn.
+                </p>
+
+                <div class="row mt-4">
+                    <div class="col-sm-6">
+                        <ul class="feature-list">
+                            <li><i class="bi bi-check-circle-fill"></i> Practical examples</li>
+                            <li><i class="bi bi-check-circle-fill"></i> BPMN and DMN</li>
+                        </ul>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <ul class="feature-list">
+                            <li><i class="bi bi-check-circle-fill"></i> Java and Spring Boot</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Learning by doing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="goal-card">
+                    <div class="d-flex gap-3">
+                        <i class="bi bi-rocket-takeoff goal-icon"></i>
+
+                        <div>
+                            <h3 class="h4 fw-bold mb-3">Our Mission</h3>
+
+                            <p class="section-description mb-4">
+                                To make process automation easier to
+                                understand, explore and apply — from
+                                the first BPMN model to a working system.
+                            </p>
+
+                            <hr>
+
+                            <p class="fst-italic mb-0">
+                                "Camundator — from understanding processes
+                                to automation."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Cockpit Invitation -->
+<section class="section section-blue" id="cockpit">
+    <div class="container">
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+                <div class="section-label mb-2">Local Environment</div>
+                <h2 class="section-title mb-3">Explore Camunda Cockpit</h2>
+
+                <p class="section-description">
+                    Open Camunda Cockpit to explore deployed process
+                    definitions, monitor running process instances
+                    and inspect process execution.
+                </p>
+
+                <p class="section-description">
+                    Make sure the Camundator application is running
+                    before opening the local Cockpit.
+                </p>
+
+                <a th:href="@{/camunda/app/cockpit/default/}"
+                   target="_blank" rel="noopener noreferrer"
+                   class="btn btn-primary-custom mt-2">
+                    <i class="bi bi-speedometer2 me-2"></i>
+                    Open Camunda Cockpit
+                    <i class="bi bi-box-arrow-up-right ms-1"></i>
+                </a>
+
+                <div class="mt-3 small text-secondary">
+                    Application URL:
+                    <code th:text="${baseUrl}">http://localhost:8080</code>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <!-- Camunda Cockpit Preview -->
+                <img src="/images/camunda_cockpit.gif"
+                     alt="Camunda Cockpit process monitoring interface"
+                     class="img-fluid rounded-4 shadow">
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Official Camunda Resources -->
+<section class="section" id="official">
+    <div class="container">
+
+        <div class="section-label mb-2">Official Resources</div>
+        <h2 class="section-title mb-2">Explore Camunda</h2>
+        <p class="section-description mb-4">
+            Official websites, documentation and developer resources.
+        </p>
+
+        <div class="row g-3">
+
+            <div class="col-12 col-sm-6 col-lg-3">
+                <a href="https://camunda.com/"
+                   target="_blank" rel="noopener noreferrer"
+                   class="official-link">
+                    <i class="bi bi-globe2"></i>
+                    <span>
+                        <strong>Camunda Website</strong>
+                        <small>Official website</small>
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+                <a href="https://docs.camunda.org/"
+                   target="_blank" rel="noopener noreferrer"
+                   class="official-link">
+                    <i class="bi bi-book"></i>
+                    <span>
+                        <strong>Documentation</strong>
+                        <small>Camunda 7 docs</small>
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+                <a href="https://forum.camunda.io/"
+                   target="_blank" rel="noopener noreferrer"
+                   class="official-link">
+                    <i class="bi bi-people"></i>
+                    <span>
+                        <strong>Community Forum</strong>
+                        <small>Ask and discuss</small>
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+                <a href="https://github.com/camunda"
+                   target="_blank" rel="noopener noreferrer"
+                   class="official-link">
+                    <i class="bi bi-github"></i>
+                    <span>
+                        <strong>Camunda on GitHub</strong>
+                        <small>Open-source projects</small>
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+                <a href="https://docs.camunda.org/manual/7.24/"
+                   target="_blank" rel="noopener noreferrer"
+                   class="official-link">
+                    <i class="bi bi-journal-code"></i>
+                    <span>
+                        <strong>Camunda 7.24 Manual</strong>
+                        <small>Version-specific guide</small>
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+                <a href="https://downloads.camunda.cloud/release/camunda-modeler/"
+                   target="_blank" rel="noopener noreferrer"
+                   class="official-link">
+                    <i class="bi bi-download"></i>
+                    <span>
+                        <strong>Camunda Modeler</strong>
+                        <small>Download releases</small>
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+                <a href="https://docs.camunda.org/manual/7.24/user-guide/dmn-engine/"
+                   target="_blank" rel="noopener noreferrer"
+                   class="official-link">
+                    <i class="bi bi-diagram-2"></i>
+                    <span>
+                        <strong>DMN Engine</strong>
+                        <small>Decision automation</small>
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+                <a href="https://github.com/camunda/camunda-bpm-platform"
+                   target="_blank" rel="noopener noreferrer"
+                   class="official-link">
+                    <i class="bi bi-code-slash"></i>
+                    <span>
+                        <strong>Platform Source Code</strong>
+                        <small>Camunda 7 repository</small>
+                    </span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Quick Links -->
+<section class="section section-blue" id="links">
+    <div class="container">
+        <div class="section-label mb-2">Explore and Connect</div>
+        <h2 class="section-title mb-2">Useful Links</h2>
+        <p class="section-description mb-4">
+            Access the Camundator community, source code and learning resources.
+        </p>
+
+        <div class="row g-3">
+
+            <!-- Telegram Channel -->
+            <div class="col-6 col-md-4">
+                <a href="https://t.me/camundator"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="resource-card">
+                    <span class="resource-icon">
+                        <i class="bi bi-telegram"></i>
+                    </span>
+                    <h3>Telegram Channel</h3>
+                    <p>Tips, tutorials and practical Camunda examples.</p>
+                    <i class="bi bi-arrow-right resource-arrow"></i>
+                </a>
+            </div>
+
+            <!-- Author's Channel -->
+            <div class="col-6 col-md-4">
+                <a href="https://t.me/mehr_kundaligi"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="resource-card">
+                    <span class="resource-icon">
+                        <i class="bi bi-journal-text"></i>
+                    </span>
+                    <h3>Author's Channel</h3>
+                    <p>More articles and publications by the author.</p>
+                    <i class="bi bi-arrow-right resource-arrow"></i>
+                </a>
+            </div>
+
+            <!-- GitHub Repository -->
+            <div class="col-6 col-md-4">
+                <a href="https://github.com/Ali-Al-Mehr/camundator"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="resource-card">
+                    <span class="resource-icon">
+                        <i class="bi bi-github"></i>
+                    </span>
+                    <h3>GitHub Repository</h3>
+                    <p>Explore the source code and project development.</p>
+                    <i class="bi bi-arrow-right resource-arrow"></i>
+                </a>
+            </div>
+
+            <!-- Personal Website -->
+            <div class="col-6 col-md-4">
+                <a href="https://www.almehr.uz/"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="resource-card">
+                    <span class="resource-icon">
+                        <i class="bi bi-globe2"></i>
+                    </span>
+                    <h3>Personal Website</h3>
+                    <p>Articles, projects and publications by the author.</p>
+                    <i class="bi bi-arrow-right resource-arrow"></i>
+                </a>
+            </div>
+
+            <!-- LinkedIn -->
+            <div class="col-6 col-md-4">
+                <a href="https://www.linkedin.com/in/alisher-irgashev/"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="resource-card">
+                    <span class="resource-icon">
+                        <i class="bi bi-linkedin"></i>
+                    </span>
+                    <h3>LinkedIn</h3>
+                    <p>Connect with the author professionally.</p>
+                    <i class="bi bi-arrow-right resource-arrow"></i>
+                </a>
+            </div>
+
+            <!-- Facebook Page -->
+            <div class="col-6 col-md-4">
+                <a href="https://www.facebook.com/Alisher.Ali.Al.Mehr"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="resource-card">
+                    <span class="resource-icon">
+                        <i class="bi bi-facebook"></i>
+                    </span>
+                    <h3>Facebook</h3>
+                    <p>Follow the author and explore updates on Facebook.</p>
+                    <i class="bi bi-arrow-right resource-arrow"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer" id="contact">
+    <div class="container">
+
+        <div class="row g-4">
+
+            <div class="col-lg-4">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <!-- Replace this placeholder with the Camundator PNG logo -->
+                    <div class="rounded-circle border border-info d-flex align-items-center justify-content-center"
+                         style="width: 58px; height: 58px;">
+                        <i class="bi bi-diagram-3 text-info fs-3"></i>
+                    </div>
+
+                    <div>
+                        <h3 class="mb-1">Camundator</h3>
+                        <small>From Process Understanding to Automation</small>
+                    </div>
+                </div>
+
+                <p class="small text-secondary">
+                    A community learning project about BPMN, DMN,
+                    FEEL and process automation.
+                </p>
+            </div>
+
+            <div class="col-lg-4">
+                <h3 class="mb-3">Author & Contact</h3>
+
+                <p class="mb-2">
+                    <i class="bi bi-person footer-icon"></i>
+                    Alisher Irgashev (Ali Al Mehr)
+                </p>
+
+                <p class="mb-2">
+                    <i class="bi bi-globe footer-icon"></i>
+                    <a href="https://www.almehr.uz/"
+                       target="_blank" rel="noopener noreferrer">
+                        www.almehr.uz
+                    </a>
+                </p>
+
+                <p class="mb-2">
+                    <i class="bi bi-telegram footer-icon"></i>
+                    <a href="https://t.me/mehr_kundaligi"
+                       target="_blank" rel="noopener noreferrer">
+                        Telegram
+                    </a>
+                </p>
+
+                <p class="mb-2">
+                    <i class="bi bi-linkedin footer-icon"></i>
+                    <a href="https://www.linkedin.com/in/alisher-irgashev/"
+                       target="_blank" rel="noopener noreferrer">
+                        LinkedIn
+                    </a>
+                </p>
+
+                <p class="mb-0">
+                    <i class="bi bi-github footer-icon"></i>
+                    <a href="https://github.com/Ali-Al-Mehr/camundator"
+                       target="_blank" rel="noopener noreferrer">
+                        GitHub Project
+                    </a>
+                </p>
+            </div>
+
+            <div class="col-lg-4">
+                <h3 class="mb-3">Project Information</h3>
+
+                <p class="small">
+                    Built for learning, experimentation and
+                    practical process automation.
+                </p>
+
+                <p class="small">
+                    <i class="bi bi-link-45deg footer-icon"></i>
+                    Local application:
+                    <a th:href="@{/}" th:text="${baseUrl}">
+                        http://localhost:8080
+                    </a>
+                </p>
+
+                <p class="small">
+                    <i class="bi bi-heart-fill text-danger me-1"></i>
+                    Made for the Camunda community.
+                </p>
+            </div>
+
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="d-flex flex-column flex-md-row justify-content-between gap-2 small text-secondary">
+            <span>&copy; <span th:text="${T(java.time.Year).now()}">2026</span> Camundator.</span>
+            <span>Learning processes. Automating the future.</span>
+        </div>
+
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
