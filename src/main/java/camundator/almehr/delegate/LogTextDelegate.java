@@ -17,6 +17,10 @@ public class LogTextDelegate implements JavaDelegate {
 
         Object input = execution.getVariable("delegateInput");
 
-        logger.info("Delegate input: {}", input);
+        if (input == null || input.toString().isBlank()) {
+            logger.info("No input variable or empty text");
+        } else {
+            logger.info("Camundator: {}", input);
+        }
     }
 }

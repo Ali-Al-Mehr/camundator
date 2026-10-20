@@ -11,6 +11,15 @@
           <camunda:outputParameter name="varA">${1}</camunda:outputParameter>
           <camunda:outputParameter name="varB">7</camunda:outputParameter>
           <camunda:outputParameter name="varC">${12.0}</camunda:outputParameter>
+          <camunda:outputParameter name="varChannelTerms">
+            <camunda:map>
+              <camunda:entry key="channelSubscribed">${false}</camunda:entry>
+              <camunda:entry key="channelInvited">${false}</camunda:entry>
+              <camunda:entry key="channelShared">${false}</camunda:entry>
+              <camunda:entry key="channelLiked">${false}</camunda:entry>
+              <camunda:entry key="channelCommented">${false}</camunda:entry>
+            </camunda:map>
+          </camunda:outputParameter>
           <camunda:outputParameter name="varPlay">${true}</camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
@@ -79,15 +88,20 @@
     <bpmn:sequenceFlow id="Flow_17xt401" sourceRef="Activity_041v0qd" targetRef="Gateway_18ql7ot" />
     <bpmn:sequenceFlow id="Flow_1w9iedi" sourceRef="Gateway_18ql7ot" targetRef="Activity_1hvvmof" />
     <bpmn:userTask id="Activity_14436by" name="Open Cockpit and Play!">
+      <bpmn:extensionElements />
       <bpmn:incoming>Flow_1eg31kl</bpmn:incoming>
       <bpmn:outgoing>Flow_1l2zxlh</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:exclusiveGateway id="Gateway_0mp2bvy" default="Flow_0t2a4pp">
-      <bpmn:incoming>Flow_1l2zxlh</bpmn:incoming>
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${execution.setVariable(&#34;delegateInput&#34;, varPlay ? &#34;Yay! The user likes the channel 😊&#34; : &#34;Oh no!!! The user does not like the channel 😔&#34;)}" event="start" />
+        <camunda:executionListener delegateExpression="${logTextDelegate}" event="end" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_06uwv1x</bpmn:incoming>
       <bpmn:outgoing>Flow_0t2a4pp</bpmn:outgoing>
       <bpmn:outgoing>Flow_1uhef1r</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_1l2zxlh" sourceRef="Activity_14436by" targetRef="Gateway_0mp2bvy" />
+    <bpmn:sequenceFlow id="Flow_1l2zxlh" sourceRef="Activity_14436by" targetRef="Activity_0axmzdo" />
     <bpmn:endEvent id="Event_1d2htgq">
       <bpmn:incoming>Flow_0t2a4pp</bpmn:incoming>
     </bpmn:endEvent>
@@ -104,6 +118,15 @@
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1w9iedi</bpmn:incoming>
       <bpmn:outgoing>Flow_1eg31kl</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_06uwv1x" sourceRef="Activity_0axmzdo" targetRef="Gateway_0mp2bvy">
+      <bpmn:extensionElements />
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_0axmzdo" name="Check Re-Play Condition" camunda:expression="${varPlay &#38;&#38; varItem}" camunda:resultVariable="varPlay">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1l2zxlh</bpmn:incoming>
+      <bpmn:outgoing>Flow_06uwv1x</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:collection="${varChannelTerms.values()}" camunda:elementVariable="varItem" />
     </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -139,21 +162,25 @@
         <dc:Bounds x="710" y="330" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1d2htgq_di" bpmnElement="Event_1d2htgq" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <dc:Bounds x="1532" y="252" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0mp2bvy_di" bpmnElement="Gateway_0mp2bvy" isMarkerVisible="true">
-        <dc:Bounds x="1325" y="245" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1152" y="302" width="79" height="40" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_07qfu96_di" bpmnElement="Activity_14436by">
         <dc:Bounds x="1170" y="230" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_15luj0k_di" bpmnElement="Activity_1hvvmof">
         <dc:Bounds x="990" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1d2htgq_di" bpmnElement="Event_1d2htgq" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <dc:Bounds x="1702" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0mp2bvy_di" bpmnElement="Gateway_0mp2bvy" isMarkerVisible="true">
+        <dc:Bounds x="1495" y="245" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1152" y="302" width="79" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1vv9x4e_di" bpmnElement="Activity_0axmzdo">
+        <dc:Bounds x="1330" y="230" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0endm01_di" bpmnElement="Flow_0endm01">
@@ -165,12 +192,12 @@
         <di:waypoint x="400" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1uhef1r_di" bpmnElement="Flow_1uhef1r">
-        <di:waypoint x="1350" y="245" />
-        <di:waypoint x="1350" y="80" />
+        <di:waypoint x="1520" y="245" />
+        <di:waypoint x="1520" y="80" />
         <di:waypoint x="450" y="80" />
         <di:waypoint x="450" y="230" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1248" y="86" width="82" height="27" />
+          <dc:Bounds x="1406" y="86" width="82" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0l5741n_di" bpmnElement="Flow_0l5741n">
@@ -220,18 +247,22 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1l2zxlh_di" bpmnElement="Flow_1l2zxlh">
         <di:waypoint x="1270" y="270" />
-        <di:waypoint x="1325" y="270" />
+        <di:waypoint x="1330" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0t2a4pp_di" bpmnElement="Flow_0t2a4pp">
-        <di:waypoint x="1375" y="270" />
-        <di:waypoint x="1532" y="270" />
+        <di:waypoint x="1545" y="270" />
+        <di:waypoint x="1702" y="270" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1399" y="236" width="87" height="27" />
+          <dc:Bounds x="1569" y="236" width="87" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1eg31kl_di" bpmnElement="Flow_1eg31kl">
         <di:waypoint x="1090" y="270" />
         <di:waypoint x="1170" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06uwv1x_di" bpmnElement="Flow_06uwv1x">
+        <di:waypoint x="1430" y="270" />
+        <di:waypoint x="1495" y="270" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
