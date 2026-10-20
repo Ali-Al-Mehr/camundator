@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0nppvsr" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.52.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
+  <bpmn:process id="solving_quadratic_equation" name="Solving a quadratic equation" isExecutable="true" camunda:historyTimeToLive="10">
+    <bpmn:startEvent id="StartEvent_1" name="Start">
+      <bpmn:outgoing>Flow_0endm01</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0endm01" sourceRef="StartEvent_1" targetRef="Activity_0goynks" />
+    <bpmn:manualTask id="Activity_0goynks" name="Set Initial Values A,B,C">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="varA">${1}</camunda:outputParameter>
+          <camunda:outputParameter name="varB">7</camunda:outputParameter>
+          <camunda:outputParameter name="varC">${12.0}</camunda:outputParameter>
+          <camunda:outputParameter name="varPlay">${true}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0endm01</bpmn:incoming>
+      <bpmn:outgoing>Flow_14wz1yc</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:sequenceFlow id="Flow_14wz1yc" sourceRef="Activity_0goynks" targetRef="Activity_0vligg9" />
+    <bpmn:serviceTask id="Activity_0vligg9" name="Calculate Discriminant" camunda:expression="${(varB * varB) - (4 * varA * varC)}" camunda:resultVariable="varDiscriminant">
+      <bpmn:incoming>Flow_14wz1yc</bpmn:incoming>
+      <bpmn:incoming>Flow_1uhef1r</bpmn:incoming>
+      <bpmn:outgoing>Flow_0l5741n</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_0z65ij8" default="Flow_1loqn5s">
+      <bpmn:incoming>Flow_0l5741n</bpmn:incoming>
+      <bpmn:outgoing>Flow_1sqzetc</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1loqn5s</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1tmnkkj</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0l5741n" sourceRef="Activity_0vligg9" targetRef="Gateway_0z65ij8" />
+    <bpmn:sequenceFlow id="Flow_1sqzetc" name="D &#62; 0" sourceRef="Gateway_0z65ij8" targetRef="Activity_041v0qd">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${varDiscriminant &gt; 0}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1loqn5s" name="D = 0" sourceRef="Gateway_0z65ij8" targetRef="Activity_1tdpav4" />
+    <bpmn:sequenceFlow id="Flow_1tmnkkj" name="D &#60; 0" sourceRef="Gateway_0z65ij8" targetRef="Activity_1bmoer8">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${varDiscriminant &lt; 0}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_1tdpav4" name="Calculate One Real Root" camunda:expression="${(-varB) / (2 * varA)}" camunda:resultVariable="varX">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="resultText">One Real Root found: x = ${varX} for varA == ${varA}, varB == ${varB}, varC == ${varC}, Discriminant = ${varDiscriminant}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1loqn5s</bpmn:incoming>
+      <bpmn:outgoing>Flow_1y0o8zf</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:manualTask id="Activity_1bmoer8" name="No Real Roots">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="resultText">No Real Roots for varA == ${varA}, varB == ${varB}, varC == ${varC}, because of varDiscriminant = ${varDiscriminant}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1tmnkkj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ewhqs0</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:scriptTask id="Activity_041v0qd" name="Calculate Two Real Roots" scriptFormat="feel" camunda:resultVariable="varRoots">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="resultText">Two Real Roots found: x1 = ${varRoots.varX1}, x2 = ${varRoots.varX2} for varA == ${varA}, varB == ${varB}, varC == ${varC}, Discriminant = ${varDiscriminant}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1sqzetc</bpmn:incoming>
+      <bpmn:outgoing>Flow_17xt401</bpmn:outgoing>
+      <bpmn:script>{
+  varX1: (-number(varB) + sqrt(varDiscriminant)) / (2 * varA),
+  varX2: (-number(varB) - sqrt(varDiscriminant)) / (2 * varA)
+}</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:exclusiveGateway id="Gateway_18ql7ot">
+      <bpmn:incoming>Flow_0ewhqs0</bpmn:incoming>
+      <bpmn:incoming>Flow_1y0o8zf</bpmn:incoming>
+      <bpmn:incoming>Flow_17xt401</bpmn:incoming>
+      <bpmn:outgoing>Flow_1w9iedi</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0ewhqs0" sourceRef="Activity_1bmoer8" targetRef="Gateway_18ql7ot" />
+    <bpmn:sequenceFlow id="Flow_1y0o8zf" sourceRef="Activity_1tdpav4" targetRef="Gateway_18ql7ot" />
+    <bpmn:sequenceFlow id="Flow_17xt401" sourceRef="Activity_041v0qd" targetRef="Gateway_18ql7ot" />
+    <bpmn:sequenceFlow id="Flow_1w9iedi" sourceRef="Gateway_18ql7ot" targetRef="Activity_1hvvmof" />
+    <bpmn:userTask id="Activity_14436by" name="Open Cockpit and Play!">
+      <bpmn:incoming>Flow_1eg31kl</bpmn:incoming>
+      <bpmn:outgoing>Flow_1l2zxlh</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_0mp2bvy" default="Flow_0t2a4pp">
+      <bpmn:incoming>Flow_1l2zxlh</bpmn:incoming>
+      <bpmn:outgoing>Flow_0t2a4pp</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1uhef1r</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1l2zxlh" sourceRef="Activity_14436by" targetRef="Gateway_0mp2bvy" />
+    <bpmn:endEvent id="Event_1d2htgq">
+      <bpmn:incoming>Flow_0t2a4pp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0t2a4pp" name="Complete&#10;(varPlay == false)" sourceRef="Gateway_0mp2bvy" targetRef="Event_1d2htgq" />
+    <bpmn:sequenceFlow id="Flow_1uhef1r" name="Play&#10;(varPlay == true)" sourceRef="Gateway_0mp2bvy" targetRef="Activity_0vligg9">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${varPlay}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1eg31kl" sourceRef="Activity_1hvvmof" targetRef="Activity_14436by" />
+    <bpmn:serviceTask id="Activity_1hvvmof" name="Log To Console" camunda:delegateExpression="${logTextDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="delegateInput">${resultText}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1w9iedi</bpmn:incoming>
+      <bpmn:outgoing>Flow_1eg31kl</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="solving_quadratic_equation">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="152" y="252" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="158" y="295" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0k34fhf_di" bpmnElement="Activity_0goynks">
+        <dc:Bounds x="240" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02rm7iq_di" bpmnElement="Activity_0vligg9">
+        <dc:Bounds x="400" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0z65ij8_di" bpmnElement="Gateway_0z65ij8" isMarkerVisible="true">
+        <dc:Bounds x="565" y="245" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_18ql7ot_di" bpmnElement="Gateway_18ql7ot" isMarkerVisible="true">
+        <dc:Bounds x="885" y="245" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ubcy56_di" bpmnElement="Activity_1bmoer8">
+        <dc:Bounds x="710" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18nizfq_di" bpmnElement="Activity_1tdpav4">
+        <dc:Bounds x="710" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_08z9o67_di" bpmnElement="Activity_041v0qd">
+        <dc:Bounds x="710" y="330" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1d2htgq_di" bpmnElement="Event_1d2htgq" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <dc:Bounds x="1532" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0mp2bvy_di" bpmnElement="Gateway_0mp2bvy" isMarkerVisible="true">
+        <dc:Bounds x="1325" y="245" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1152" y="302" width="79" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_07qfu96_di" bpmnElement="Activity_14436by">
+        <dc:Bounds x="1170" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15luj0k_di" bpmnElement="Activity_1hvvmof">
+        <dc:Bounds x="990" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0endm01_di" bpmnElement="Flow_0endm01">
+        <di:waypoint x="188" y="270" />
+        <di:waypoint x="240" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14wz1yc_di" bpmnElement="Flow_14wz1yc">
+        <di:waypoint x="340" y="270" />
+        <di:waypoint x="400" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uhef1r_di" bpmnElement="Flow_1uhef1r">
+        <di:waypoint x="1350" y="245" />
+        <di:waypoint x="1350" y="80" />
+        <di:waypoint x="450" y="80" />
+        <di:waypoint x="450" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1248" y="86" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0l5741n_di" bpmnElement="Flow_0l5741n">
+        <di:waypoint x="500" y="270" />
+        <di:waypoint x="565" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sqzetc_di" bpmnElement="Flow_1sqzetc">
+        <di:waypoint x="590" y="295" />
+        <di:waypoint x="590" y="370" />
+        <di:waypoint x="710" y="370" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="636" y="352.5" width="27" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1loqn5s_di" bpmnElement="Flow_1loqn5s">
+        <di:waypoint x="615" y="270" />
+        <di:waypoint x="710" y="270" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="633" y="252" width="27" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tmnkkj_di" bpmnElement="Flow_1tmnkkj">
+        <di:waypoint x="590" y="245" />
+        <di:waypoint x="590" y="170" />
+        <di:waypoint x="710" y="170" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="636" y="152.5" width="27" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1y0o8zf_di" bpmnElement="Flow_1y0o8zf">
+        <di:waypoint x="810" y="270" />
+        <di:waypoint x="885" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ewhqs0_di" bpmnElement="Flow_0ewhqs0">
+        <di:waypoint x="810" y="170" />
+        <di:waypoint x="910" y="170" />
+        <di:waypoint x="910" y="245" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17xt401_di" bpmnElement="Flow_17xt401">
+        <di:waypoint x="810" y="370" />
+        <di:waypoint x="910" y="370" />
+        <di:waypoint x="910" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1w9iedi_di" bpmnElement="Flow_1w9iedi">
+        <di:waypoint x="935" y="270" />
+        <di:waypoint x="990" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1l2zxlh_di" bpmnElement="Flow_1l2zxlh">
+        <di:waypoint x="1270" y="270" />
+        <di:waypoint x="1325" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0t2a4pp_di" bpmnElement="Flow_0t2a4pp">
+        <di:waypoint x="1375" y="270" />
+        <di:waypoint x="1532" y="270" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1399" y="236" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1eg31kl_di" bpmnElement="Flow_1eg31kl">
+        <di:waypoint x="1090" y="270" />
+        <di:waypoint x="1170" y="270" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
